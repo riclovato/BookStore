@@ -1,14 +1,25 @@
 package com.rick.bookStore.model;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
+@Table(name = "books")
 public class Book implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, length = 80)
     private String author;
+    @Column(nullable = false)
     private String title;
+    @Column(name = "launch_date", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date launchDate;
+    @Column(nullable = false)
     private Double price;
 
     public Book() {
