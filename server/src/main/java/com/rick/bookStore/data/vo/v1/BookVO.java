@@ -1,10 +1,13 @@
 package com.rick.bookStore.data.vo.v1;
 
+import com.github.dozermapper.core.Mapping;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 public class BookVO implements Serializable {
+    @Mapping("id")
     private Long key;
 
     private String author;

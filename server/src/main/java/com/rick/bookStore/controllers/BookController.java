@@ -18,7 +18,7 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping
-    public List<Book> findAll() {
+    public List<BookVO> findAll() {
         return bookService.findAll();
     }
 }
