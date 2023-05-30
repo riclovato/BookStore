@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -30,5 +31,10 @@ public class BookService {
         var books = repository.findAll();
         var booksVO = DozerMapper.parseListObject(books, BookVO.class);
         return booksVO;
+    }
+    public BookVO findById(Long id) {
+        var book = repository.findById(id).orElseThrow(() -> new RuntimeException("No records found for this ID!"));;
+        BookVO bookVO = DozerMapper.parseObject(book, BookVO.class);
+        return bookVO;
     }
 }

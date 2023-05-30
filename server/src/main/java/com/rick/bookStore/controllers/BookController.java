@@ -6,6 +6,7 @@ import com.rick.bookStore.data.vo.v1.BookVO;
 import com.rick.bookStore.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,5 +21,10 @@ public class BookController {
     @GetMapping
     public List<BookVO> findAll() {
         return bookService.findAll();
+    }
+
+    @GetMapping(value = "/{id}")
+    public BookVO findById(@PathVariable(value = "id") Long bookId) {
+        return bookService.findById(bookId);
     }
 }

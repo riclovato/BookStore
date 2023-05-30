@@ -1,5 +1,6 @@
 package com.rick.bookStore.data.vo.v1;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.dozermapper.core.Mapping;
 
 import java.io.Serializable;
@@ -8,12 +9,13 @@ import java.util.Objects;
 
 public class BookVO implements Serializable {
     @Mapping("id")
+    @JsonProperty("id")
     private Long key;
-
     private String author;
+    private String title;
     private Date launchDate;
     private double price;
-    private String title;
+
 
     public BookVO() {
 
