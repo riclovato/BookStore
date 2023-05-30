@@ -12,13 +12,13 @@ public class DozerMapper {
 
     //<O,D> tipos genéricos (Origem e Destino)
     // recebe origem e destino, faz o mapeamento e retorna como destino.
-    public static <O,D> D parseObject(O origin, Class<D> destination){
-        return  mapper.map(origin, destination);
+    public static <O, D> D parseObject(O origin, Class<D> destination) {
+        return mapper.map(origin, destination);
     }
 
-    public static <O,D> List <D> parseListObject(List<O> origin, Class<D> destination){
+    public static <O, D> List<D> parseListObject(List<O> origin, Class<D> destination) {
         List<D> destinationObjects = new ArrayList<D>();
-        for (O obj : origin){
+        for (O obj : origin) {
             destinationObjects.add(mapper.map(obj, destination));
         }
         return destinationObjects;

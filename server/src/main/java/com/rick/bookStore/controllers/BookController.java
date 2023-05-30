@@ -3,12 +3,8 @@ package com.rick.bookStore.controllers;
 
 import com.rick.bookStore.Services.BookService;
 import com.rick.bookStore.data.vo.v1.BookVO;
-import com.rick.bookStore.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,4 +23,20 @@ public class BookController {
     public BookVO findById(@PathVariable(value = "id") Long bookId) {
         return bookService.findById(bookId);
     }
+
+    @PostMapping
+    public BookVO create(@RequestBody BookVO bookVO) {
+        return bookService.create(bookVO);
+    }
+
+    @PutMapping
+    public BookVO update(@RequestBody BookVO bookVO) {
+        return bookService.update(bookVO);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void delete(@PathVariable(value = "id") Long bookId) {
+        bookService.delete(bookId);
+    }
+
 }
