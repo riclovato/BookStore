@@ -10,7 +10,7 @@ import java.util.Objects;
 public class BookVO implements Serializable {
     @Mapping("id")
     @JsonProperty("id")
-    private Long key;
+    private Long id;
     private String author;
     private String title;
     private Date launchDate;
@@ -21,20 +21,20 @@ public class BookVO implements Serializable {
 
     }
 
-    public BookVO(Long key, String author, Date launchDate, double price, String title) {
-        this.key = key;
+    public BookVO(Long id, String author, Date launchDate, double price, String title) {
+        this.id = id;
         this.author = author;
         this.launchDate = launchDate;
         this.price = price;
         this.title = title;
     }
 
-    public Long getKey() {
-        return key;
+    public Long getId() {
+        return id;
     }
 
-    public void setKey(Long key) {
-        this.key = key;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAuthor() {
@@ -78,13 +78,13 @@ public class BookVO implements Serializable {
         if (!super.equals(o))
             return false;
         BookVO bookVO = (BookVO) o;
-        return Double.compare(bookVO.price, price) == 0 && Objects.equals(key, bookVO.key)
+        return Double.compare(bookVO.price, price) == 0 && Objects.equals(id, bookVO.id)
                 && Objects.equals(author, bookVO.author) && Objects.equals(launchDate, bookVO.launchDate)
                 && Objects.equals(title, bookVO.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), key, author, launchDate, price, title);
+        return Objects.hash(super.hashCode(), id, author, launchDate, price, title);
     }
 }

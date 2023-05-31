@@ -9,6 +9,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -27,9 +28,14 @@ public class BookService {
     }
 
     public BookVO findById(Long id) {
-        var book = repository.findById(id).orElseThrow(() -> new RuntimeException("No records found for this ID!"));
-        BookVO bookVO = DozerMapper.parseObject(book, BookVO.class);
-        return bookVO;
+        Optional<Book> bookOptional = repository.findById(id);
+        Book book = bookOptional.orElse(null);
+        if(book !=null) {
+            BookVO bookVO = DozerMapper.parseObject(book, BookVO.class);
+            return bookVO;
+        }else {
+            return null;
+        }
     }
 
     public BookVO create(BookVO book) {
@@ -39,7 +45,7 @@ public class BookService {
     }
 
     public BookVO update(BookVO book) {
-        var entity = repository.findById(book.getKey()).orElseThrow(() -> new RuntimeException("No records found for this"));
+        var entity = repository.findById(book.getId()).orElseThrow(() -> new RuntimeException("No records found for this"));
         entity.setAuthor(book.getAuthor());
         entity.setTitle(book.getTitle());
         entity.setLaunchDate(book.getLaunchDate());
