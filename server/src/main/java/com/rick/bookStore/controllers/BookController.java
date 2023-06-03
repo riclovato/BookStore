@@ -1,19 +1,23 @@
 package com.rick.bookStore.controllers;
 
 
-import com.rick.bookStore.Services.BookService;
+import com.rick.bookStore.services.BookService;
 import com.rick.bookStore.data.vo.v1.BookVO;
-import com.rick.bookStore.exceptions.ResourceNotFound;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/book/v1")
@@ -29,8 +33,11 @@ public class BookController {
             @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)})
     @GetMapping
     //@Operation(summary="Finds all books", description = "Finds all books", tags = {"Books"})
-    public List<BookVO> findAll() {
-        return bookService.findAll();
+    public ResponseEntity<PagedModel<EntityModel<BookVO>>> findAll(@RequestParam(value = "page", defaultValue = "0")Integer page, @RequestParam(value = "limit", defaultValue = "12")Integer limit, @RequestParam(value = "direction", defaultValue = "asc")String direction)
+    {
+            var sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page,limit,Sort.by(sortDirection,"title"));
+        return ResponseEntity.ok(bookService.findAll(pageable));
     }
 
 
@@ -44,9 +51,6 @@ public class BookController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<BookVO> findById(@PathVariable(value = "id") Long bookId) {
         var book = bookService.findById(bookId);
-        if (book == null) {
-            throw new ResourceNotFound("Book not found");
-        }
         return ResponseEntity.ok(book);
     }
 

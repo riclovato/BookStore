@@ -1,15 +1,24 @@
-package com.rick.bookStore.Services;
+package com.rick.bookStore.services;
 
+import com.rick.bookStore.controllers.BookController;
 import com.rick.bookStore.data.vo.v1.BookVO;
+import com.rick.bookStore.exceptions.ResourceNotFound;
 import com.rick.bookStore.mapper.DozerMapper;
 import com.rick.bookStore.model.Book;
 import com.rick.bookStore.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @Service
@@ -21,20 +30,24 @@ public class BookService {
     PagedResourcesAssembler<BookVO> assembler;
 
 
-    public List<BookVO> findAll() {
-        var books = repository.findAll();
-        var booksVO = DozerMapper.parseListObject(books, BookVO.class);
-        return booksVO;
+    public PagedModel<EntityModel<BookVO>> findAll(Pageable pageable) {
+        var bookPage = repository.findAll(pageable);
+        var booksVOPage = bookPage.map(b -> DozerMapper.parseObject(b,BookVO.class));
+
+        booksVOPage.map(b -> b.add(linkTo(methodOn(BookController.class).findById(b.getId())).withSelfRel()));
+        Link link = linkTo(methodOn(BookController.class).findAll(pageable.getPageNumber(),pageable.getPageSize(),"asc")).withSelfRel();
+        return assembler.toModel(booksVOPage,link);
     }
 
     public BookVO findById(Long id) {
         Optional<Book> bookOptional = repository.findById(id);
         Book book = bookOptional.orElse(null);
-        if(book !=null) {
+        if (book != null) {
             BookVO bookVO = DozerMapper.parseObject(book, BookVO.class);
+            bookVO.add(linkTo(methodOn(BookController.class).findById(id)).withSelfRel());
             return bookVO;
-        }else {
-            return null;
+        } else {
+            throw new ResourceNotFound("Book not found");
         }
     }
 
