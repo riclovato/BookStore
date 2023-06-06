@@ -2,7 +2,7 @@ package com.rick.bookStore.services;
 
 import com.rick.bookStore.controllers.BookController;
 import com.rick.bookStore.data.vo.v1.BookVO;
-import com.rick.bookStore.exceptions.ResourceNotFound;
+import com.rick.bookStore.exceptions.ResourceNotFoundException;
 import com.rick.bookStore.mapper.DozerMapper;
 import com.rick.bookStore.model.Book;
 import com.rick.bookStore.repositories.BookRepository;
@@ -14,7 +14,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -47,7 +46,7 @@ public class BookService {
             bookVO.add(linkTo(methodOn(BookController.class).findById(id)).withSelfRel());
             return bookVO;
         } else {
-            throw new ResourceNotFound("Book not found");
+            throw new ResourceNotFoundException("Book not found");
         }
     }
 
