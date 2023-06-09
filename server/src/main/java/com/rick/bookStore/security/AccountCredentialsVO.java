@@ -1,4 +1,4 @@
-package com.rick.bookStore.data.vo.v1.security;
+package com.rick.bookStore.security;
 
 import java.io.Serial;
 import java.io.Serializable;

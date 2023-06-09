@@ -1,10 +1,12 @@
 package com.rick.bookStore.exceptions;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 public class ExceptionResponse implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -8601591554110244707L;
 
     private Date timestamp;
