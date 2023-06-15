@@ -1,6 +1,7 @@
 package com.rick.bookStore.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,6 +16,7 @@ public class Book implements Serializable {
     @Column(nullable = false, length = 80)
     private String author;
     @Column(nullable = false)
+    @NotBlank(message = "O campo nome não pode ser vazio")
     private String title;
     @Column(name = "launch_date", nullable = false)
     @Temporal(TemporalType.DATE)

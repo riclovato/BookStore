@@ -32,6 +32,8 @@ public class AuthController {
         return token;
     }
 
+
+
     @Operation(summary = "Refresh token for authenticated user and returns a token")
     @PutMapping(value = "/refresh/{username}")
     @SuppressWarnings("rawtypes")

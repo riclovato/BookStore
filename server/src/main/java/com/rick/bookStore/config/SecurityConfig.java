@@ -22,10 +22,6 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.web.SecurityFilterChain;
 
-
-
-
-
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -64,6 +60,7 @@ public class SecurityConfig {
                                         "/v3/api-docs/**"
                                 ).permitAll()
                                 .requestMatchers("/api/**").authenticated()
+                                .requestMatchers("/user").authenticated()
                                 .requestMatchers("/users").denyAll()
                 )
                 .cors()
@@ -71,6 +68,5 @@ public class SecurityConfig {
                 .apply(new JwtConfigurer(tokenProvider))
                 .and()
                 .build();
-
     }
 }

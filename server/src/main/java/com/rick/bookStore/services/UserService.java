@@ -1,11 +1,14 @@
 package com.rick.bookStore.services;
 
+import com.rick.bookStore.model.User;
 import com.rick.bookStore.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -16,6 +19,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     UserRepository repository;
 
+    public List<User> findAll(){
+        return repository.findAll();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -26,4 +32,5 @@ public class UserService implements UserDetailsService {
            throw new UsernameNotFoundException("Username " + username + " not found.");
        }
     }
+
 }

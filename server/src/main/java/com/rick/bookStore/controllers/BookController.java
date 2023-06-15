@@ -15,8 +15,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -61,7 +64,8 @@ public class BookController {
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)})
     @PostMapping
-    public BookVO create(@RequestBody BookVO bookVO) {
+    @Secured("ROLE_ADMIN")
+    public BookVO create(@Valid @RequestBody BookVO bookVO) {
         return bookService.create(bookVO);
     }
 
