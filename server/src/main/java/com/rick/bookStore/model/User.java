@@ -45,6 +45,20 @@ public class User implements UserDetails, Serializable {
     public User() {
     }
 
+    public User(String userName, String fullName, String password) {
+        this.userName = userName;
+        this.fullName = fullName;
+        this.password = password;
+        accountNonExpired = true;
+        accountNonLocked = true;
+        credentialsNonExpired = true;
+        enabled = true;
+        this.permissions = new ArrayList<>();
+        Permission permission = new Permission();
+        permission.setId(3L);
+        this.permissions.add(permission);
+    }
+
     public List <String> getRoles(){
         List<String> roles = new ArrayList<>();
         for(Permission permission : permissions){
